@@ -63,24 +63,22 @@
     .brow.left { left: 39px; transform: rotate(-7deg); }
     .brow.right { right: 39px; transform: rotate(7deg); }
 
-    .eye { position: absolute; top: 78px; background: #fff; border: 3px solid #1d1d1d; z-index: 5; }
+    .eye { position: absolute; top: 78px; z-index: 5; background-position: center; background-size: contain; background-repeat: no-repeat; }
     .eye.left { left: 41px; }
     .eye.right { right: 41px; }
-    .eye::after { content: ""; position: absolute; width: 8px; height: 8px; background: #1f1f1f; border-radius: 50%; left: 50%; top: 50%; transform: translate(-50%, -45%); }
-    .eye.style-round { width: 24px; height: 24px; border-radius: 50%; }
-    .eye.style-almond { width: 28px; height: 18px; border-radius: 55% / 65%; }
-    .eye.style-line { width: 26px; height: 7px; border-radius: 999px; background: #1f1f1f; border-color: #1f1f1f; }
-    .eye.style-line::after { display: none; }
+    .eye.style-round { width: 24px; height: 24px; }
+    .eye.style-almond { width: 28px; height: 18px; }
+    .eye.style-line { width: 26px; height: 7px; }
 
-    .nose { position: absolute; left: 50%; top: 104px; transform: translateX(-50%); z-index: 5; }
-    .nose.style-dot { width: 10px; height: 8px; background: #c78874; border-radius: 50%; }
-    .nose.style-line { width: 4px; height: 18px; background: #b77665; border-radius: 999px; }
-    .nose.style-triangle { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 12px solid #c58572; }
+    .nose { position: absolute; left: 50%; top: 104px; transform: translateX(-50%); z-index: 5; background-position: center; background-size: contain; background-repeat: no-repeat; }
+    .nose.style-dot { width: 10px; height: 8px; }
+    .nose.style-line { width: 4px; height: 18px; }
+    .nose.style-triangle { width: 14px; height: 12px; }
 
-    .mouth { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 5; transition: all .15s ease; }
-    .mouth.style-smile { width: 36px; height: 16px; border: 3px solid #2f2f2f; border-top: none; border-radius: 0 0 22px 22px; }
-    .mouth.style-flat { width: 32px; height: 4px; background: #2f2f2f; border-radius: 999px; }
-    .mouth.style-open { width: 24px; height: 14px; background: #7d2f3f; border: 3px solid #2f2f2f; border-radius: 0 0 14px 14px; }
+    .mouth { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 5; transition: all .15s ease; background-position: center; background-size: contain; background-repeat: no-repeat; }
+    .mouth.style-smile { width: 36px; height: 16px; }
+    .mouth.style-flat { width: 32px; height: 4px; }
+    .mouth.style-open { width: 24px; height: 14px; }
     .face.talk .mouth.style-smile, .face.talk .mouth.style-open { height: 20px; width: 30px; }
 
     .name-label { text-align: center; font-weight: 700; margin-bottom: 10px; font-size: 1.1rem; }
@@ -132,10 +130,10 @@
               <div class="hair style-short" id="hair"></div>
               <div class="brow left"></div>
               <div class="brow right"></div>
-              <div class="eye left style-round" id="eyeL"></div>
-              <div class="eye right style-round" id="eyeR"></div>
-              <div class="nose style-dot" id="nose"></div>
-              <div class="mouth style-smile" id="mouth"></div>
+              <div class="eye left style-round" id="eyeL" aria-label="左目"></div>
+              <div class="eye right style-round" id="eyeR" aria-label="右目"></div>
+              <div class="nose style-dot" id="nose" aria-label="鼻"></div>
+              <div class="mouth style-smile" id="mouth" aria-label="口"></div>
             </div>
           </div>
           <div class="name-label" id="avatarNameLabel">ルミ</div>
@@ -172,6 +170,12 @@
     const moodEl = document.getElementById("mood");
     const faceEl = document.getElementById("face");
 
+    const partSvgMap = {
+      eyeType: { round: "assets/face/eye-round.svg", almond: "assets/face/eye-almond.svg", line: "assets/face/eye-line.svg" },
+      noseType: { dot: "assets/face/nose-dot.svg", line: "assets/face/nose-line.svg", triangle: "assets/face/nose-triangle.svg" },
+      mouthType: { smile: "assets/face/mouth-smile.svg", flat: "assets/face/mouth-flat.svg", open: "assets/face/mouth-open.svg" }
+    };
+
     const styleMap = {
       faceType: { el: faceEl, prefix: "outline-" },
       hairType: { el: document.getElementById("hair"), prefix: "style-" },
@@ -188,6 +192,46 @@
         el.classList.add(`${clsPrefix}${value}`);
       };
       cfg.els ? cfg.els.forEach(apply) : apply(cfg.el);
+
+      if (partSvgMap[key]) {
+        const src = partSvgMap[key][value];
+        if (cfg.els) cfg.els.forEach((el) => { el.style.backgroundImage = `url(${src})`; });
+        else cfg.el.style.backgroundImage = `url(${src})`;
+      }
+    }
+
+    const storageKey = "avatarQuestCharacterV1";
+    function saveCharacter() {
+      const payload = {
+        avatarName: state.avatarName,
+        personality: document.getElementById("personality").value,
+        skinColor: document.getElementById("skinColor").value,
+        hairColor: document.getElementById("hairColor").value,
+        faceType: document.getElementById("faceType").value,
+        hairType: document.getElementById("hairType").value,
+        eyeType: document.getElementById("eyeType").value,
+        noseType: document.getElementById("noseType").value,
+        mouthType: document.getElementById("mouthType").value
+      };
+      localStorage.setItem(storageKey, JSON.stringify(payload));
+    }
+
+    function loadCharacter() {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      try {
+        const saved = JSON.parse(raw);
+        const setIfExists = (id, value) => {
+          if (!value) return;
+          const el = document.getElementById(id);
+          el.value = value;
+        };
+        setIfExists("avatarName", saved.avatarName);
+        setIfExists("personality", saved.personality);
+        setIfExists("skinColor", saved.skinColor);
+        setIfExists("hairColor", saved.hairColor);
+        ["faceType","hairType","eyeType","noseType","mouthType"].forEach((id) => setIfExists(id, saved[id]));
+      } catch (_) {}
     }
 
     function addMessage(text, who) { const div = document.createElement("div"); div.className = `msg ${who}`; div.textContent = text; chat.appendChild(div); chat.scrollTop = chat.scrollHeight; }
@@ -218,15 +262,26 @@
 
     document.getElementById("sendBtn").addEventListener("click", talk);
     document.getElementById("playerInput").addEventListener("keydown", (e) => e.key === "Enter" && talk());
-    document.getElementById("avatarName").addEventListener("input", (e) => { const v = e.target.value.trim() || "ルミ"; state.avatarName = v; document.getElementById("avatarNameLabel").textContent = v; });
+    document.getElementById("avatarName").addEventListener("input", (e) => { const v = e.target.value.trim() || "ルミ"; state.avatarName = v; document.getElementById("avatarNameLabel").textContent = v; saveCharacter(); });
     document.getElementById("skinColor").addEventListener("input", (e) => {
       document.getElementById("head").style.background = e.target.value;
       document.getElementById("earL").style.background = e.target.value;
       document.getElementById("earR").style.background = e.target.value;
+      saveCharacter();
     });
-    document.getElementById("hairColor").addEventListener("input", (e) => { document.getElementById("hair").style.background = e.target.value; });
-    document.getElementById("personality").addEventListener("change", (e) => { state.personality = e.target.value; });
-    ["faceType","hairType","eyeType","noseType","mouthType"].forEach(id => document.getElementById(id).addEventListener("change", (e) => setPartStyle(id, e.target.value)));
+    document.getElementById("hairColor").addEventListener("input", (e) => { document.getElementById("hair").style.background = e.target.value; saveCharacter(); });
+    document.getElementById("personality").addEventListener("change", (e) => { state.personality = e.target.value; saveCharacter(); });
+    ["faceType","hairType","eyeType","noseType","mouthType"].forEach(id => document.getElementById(id).addEventListener("change", (e) => { setPartStyle(id, e.target.value); saveCharacter(); }));
+
+    loadCharacter();
+    document.getElementById("avatarName").dispatchEvent(new Event("input"));
+    document.getElementById("skinColor").dispatchEvent(new Event("input"));
+    document.getElementById("hairColor").dispatchEvent(new Event("input"));
+    document.getElementById("personality").dispatchEvent(new Event("change"));
+    ["faceType","hairType","eyeType","noseType","mouthType"].forEach((id) => {
+      const el = document.getElementById(id);
+      setPartStyle(id, el.value);
+    });
 
     addMessage("こんにちは！ わたしはルミ。パーツを選んで人型アバターを作ってね！", "avatar");
   </script>
