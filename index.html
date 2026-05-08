@@ -25,8 +25,8 @@
       place-items: center;
       padding: 20px;
     }
-    .game { width: min(100%, 980px); background: linear-gradient(160deg, var(--panel), var(--panel2)); border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,.35); overflow: hidden; border: 1px solid rgba(255,255,255,.1);}    
-    header { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: rgba(0,0,0,.2); border-bottom: 1px solid rgba(255,255,255,.08);}    
+    .game { width: min(100%, 980px); background: linear-gradient(160deg, var(--panel), var(--panel2)); border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,.35); overflow: hidden; border: 1px solid rgba(255,255,255,.1);}
+    header { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: rgba(0,0,0,.2); border-bottom: 1px solid rgba(255,255,255,.08);}
     h1 { margin: 0; font-size: 1.1rem; letter-spacing: .05em; }
     .status { display: flex; gap: 12px; color: var(--muted); font-size: .95rem; }
     main { display: grid; grid-template-columns: 320px 1fr; }
@@ -34,42 +34,72 @@
     .section-title { margin: 0 0 10px; font-size: .95rem; color: var(--muted); }
     .avatar-card { background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
 
+    .avatar-stage { width: 180px; height: 190px; margin: 0 auto 14px; position: relative; }
     .face {
-      width: 160px; height: 170px; margin: 0 auto 14px; position: relative;
-      border: 4px solid rgba(255,255,255,.2); transition: transform .2s ease;
-      background: #ffd6b6;
+      position: absolute; inset: 20px 20px 6px;
+      transition: transform .2s ease;
     }
-    .face.talk { transform: scale(1.02); }
-    .face.outline-round { border-radius: 48% 48% 52% 52%; }
-    .face.outline-oval { border-radius: 45% 45% 58% 58%; }
-    .face.outline-square { border-radius: 30% 30% 35% 35%; }
+    .face.talk { transform: translateY(2px) scale(1.02); }
+    .head {
+      position: absolute; inset: 0;
+      border: 4px solid rgba(0,0,0,.22);
+      background: #ffd6b6;
+      z-index: 3;
+    }
+    .face.outline-round .head { border-radius: 45% 45% 48% 48%; }
+    .face.outline-oval .head { border-radius: 42% 42% 52% 52%; }
+    .face.outline-square .head { border-radius: 30% 30% 36% 36%; }
 
-    .hair { position: absolute; top: -18px; left: -8px; right: -8px; height: 86px; background: #3a2a20; }
-    .hair.style-short { border-radius: 56px 56px 42px 42px; }
-    .hair.style-bob { border-radius: 58px 58px 24px 24px; height: 98px; }
-    .hair.style-spiky { clip-path: polygon(0% 85%, 10% 32%, 20% 80%, 30% 20%, 40% 82%, 50% 10%, 60% 82%, 70% 25%, 80% 82%, 90% 30%, 100% 85%, 100% 0%, 0% 0%); }
+    .ear { position: absolute; top: 90px; width: 18px; height: 28px; background: #ffd6b6; border: 3px solid rgba(0,0,0,.18); z-index: 2; }
+    .ear.left { left: 2px; border-right: none; border-radius: 12px 0 0 12px; }
+    .ear.right { right: 2px; border-left: none; border-radius: 0 12px 12px 0; }
 
-    .eye { position: absolute; top: 72px; background: #222; }
-    .eye.left { left: 48px; }
-    .eye.right { right: 48px; }
-    .eye.style-round { width: 22px; height: 22px; border-radius: 50%; }
-    .eye.style-almond { width: 24px; height: 14px; border-radius: 50% / 60%; }
-    .eye.style-line { width: 24px; height: 3px; border-radius: 999px; top: 79px; }
+    .hair { position: absolute; left: 10px; right: 10px; top: 10px; z-index: 4; background: #3a2a20; }
+    .hair.style-short { height: 50px; border-radius: 40px 40px 28px 28px; }
+    .hair.style-bob { height: 64px; border-radius: 42px 42px 18px 18px; }
+    .hair.style-spiky { height: 60px; clip-path: polygon(0% 88%, 8% 35%, 16% 82%, 25% 18%, 35% 80%, 46% 10%, 56% 80%, 66% 22%, 76% 84%, 86% 34%, 100% 88%, 100% 0%, 0% 0%); }
 
-    .nose { position: absolute; left: 50%; transform: translateX(-50%); top: 100px; background: #a4685f; }
-    .nose.style-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .nose.style-line { width: 3px; height: 12px; border-radius: 999px; }
-    .nose.style-triangle { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 10px solid #a4685f; background: transparent; }
+    .brow { position: absolute; top: 64px; width: 30px; height: 6px; background: rgba(60,38,24,.9); border-radius: 999px; z-index: 5; }
+    .brow.left { left: 39px; transform: rotate(-7deg); }
+    .brow.right { right: 39px; transform: rotate(7deg); }
 
-    .mouth { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); border: 3px solid #333; border-top: none; transition: all .15s ease; }
-    .mouth.style-smile { width: 42px; height: 12px; border-radius: 0 0 20px 20px; }
-    .mouth.style-flat { width: 34px; height: 1px; border: none; background: #333; border-radius: 999px; bottom: 35px; }
-    .mouth.style-open { width: 24px; height: 14px; border-radius: 0 0 10px 10px; }
-    .face.talk .mouth.style-smile, .face.talk .mouth.style-open { height: 18px; width: 30px; }
+    .eye { position: absolute; top: 78px; background: #fff; border: 3px solid #1d1d1d; z-index: 5; }
+    .eye.left { left: 41px; }
+    .eye.right { right: 41px; }
+    .eye::after { content: ""; position: absolute; width: 8px; height: 8px; background: #1f1f1f; border-radius: 50%; left: 50%; top: 50%; transform: translate(-50%, -45%); }
+    .eye.style-round { width: 24px; height: 24px; border-radius: 50%; }
+    .eye.style-almond { width: 28px; height: 18px; border-radius: 55% / 65%; }
+    .eye.style-line { width: 26px; height: 7px; border-radius: 999px; background: #1f1f1f; border-color: #1f1f1f; }
+    .eye.style-line::after { display: none; }
+
+    .nose { position: absolute; left: 50%; top: 104px; transform: translateX(-50%); z-index: 5; }
+    .nose.style-dot { width: 10px; height: 8px; background: #c78874; border-radius: 50%; }
+    .nose.style-line { width: 4px; height: 18px; background: #b77665; border-radius: 999px; }
+    .nose.style-triangle { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 12px solid #c58572; }
+
+    .mouth { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 5; transition: all .15s ease; }
+    .mouth.style-smile { width: 36px; height: 16px; border: 3px solid #2f2f2f; border-top: none; border-radius: 0 0 22px 22px; }
+    .mouth.style-flat { width: 32px; height: 4px; background: #2f2f2f; border-radius: 999px; }
+    .mouth.style-open { width: 24px; height: 14px; background: #7d2f3f; border: 3px solid #2f2f2f; border-radius: 0 0 14px 14px; }
+    .face.talk .mouth.style-smile, .face.talk .mouth.style-open { height: 20px; width: 30px; }
 
     .name-label { text-align: center; font-weight: 700; margin-bottom: 10px; font-size: 1.1rem; }
-    .controls label { display: block; font-size: .88rem; color: var(--muted); margin: 8px 0 4px; }
-    .controls input, .controls select { width: 100%; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); color: var(--text); border-radius: 10px; padding: 9px 10px; }
+    .controls label { display: block; font-size: .88rem; color: #dbe2ff; margin: 8px 0 4px; font-weight: 600; }
+    .controls input, .controls select {
+      width: 100%; border: 1px solid rgba(255,255,255,.25); background: rgba(10,14,33,.72); color: #ffffff;
+      border-radius: 10px; padding: 9px 10px; font-weight: 600;
+    }
+    .controls select {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, #d9e5ff 50%), linear-gradient(135deg, #d9e5ff 50%, transparent 50%);
+      background-position: calc(100% - 16px) calc(50% - 2px), calc(100% - 10px) calc(50% - 2px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 30px;
+    }
+    .controls select option { background: #20284a; color: #fff; }
+    .controls input:focus, .controls select:focus { outline: 2px solid #9fd8ff; outline-offset: 1px; }
+
     .right { display: grid; grid-template-rows: 1fr auto; min-height: 560px; }
     .chat { padding: 18px; overflow: auto; display: flex; flex-direction: column; gap: 10px; }
     .msg { max-width: 78%; padding: 10px 12px; border-radius: 12px; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
@@ -94,12 +124,19 @@
       <section class="left">
         <p class="section-title">人型アバター作成</p>
         <div class="avatar-card">
-          <div class="face outline-round" id="face">
-            <div class="hair style-short" id="hair"></div>
-            <div class="eye left style-round" id="eyeL"></div>
-            <div class="eye right style-round" id="eyeR"></div>
-            <div class="nose style-dot" id="nose"></div>
-            <div class="mouth style-smile" id="mouth"></div>
+          <div class="avatar-stage">
+            <div class="ear left" id="earL"></div>
+            <div class="ear right" id="earR"></div>
+            <div class="face outline-round" id="face">
+              <div class="head" id="head"></div>
+              <div class="hair style-short" id="hair"></div>
+              <div class="brow left"></div>
+              <div class="brow right"></div>
+              <div class="eye left style-round" id="eyeL"></div>
+              <div class="eye right style-round" id="eyeR"></div>
+              <div class="nose style-dot" id="nose"></div>
+              <div class="mouth style-smile" id="mouth"></div>
+            </div>
           </div>
           <div class="name-label" id="avatarNameLabel">ルミ</div>
           <div class="controls">
@@ -147,7 +184,7 @@
       const cfg = styleMap[key];
       const clsPrefix = cfg.prefix;
       const apply = (el) => {
-        [...el.classList].forEach(c => c.startsWith(clsPrefix) || c.startsWith("outline-") ? el.classList.remove(c) : null);
+        [...el.classList].forEach(c => c.startsWith(clsPrefix) ? el.classList.remove(c) : null);
         el.classList.add(`${clsPrefix}${value}`);
       };
       cfg.els ? cfg.els.forEach(apply) : apply(cfg.el);
@@ -182,7 +219,11 @@
     document.getElementById("sendBtn").addEventListener("click", talk);
     document.getElementById("playerInput").addEventListener("keydown", (e) => e.key === "Enter" && talk());
     document.getElementById("avatarName").addEventListener("input", (e) => { const v = e.target.value.trim() || "ルミ"; state.avatarName = v; document.getElementById("avatarNameLabel").textContent = v; });
-    document.getElementById("skinColor").addEventListener("input", (e) => { faceEl.style.background = e.target.value; });
+    document.getElementById("skinColor").addEventListener("input", (e) => {
+      document.getElementById("head").style.background = e.target.value;
+      document.getElementById("earL").style.background = e.target.value;
+      document.getElementById("earR").style.background = e.target.value;
+    });
     document.getElementById("hairColor").addEventListener("input", (e) => { document.getElementById("hair").style.background = e.target.value; });
     document.getElementById("personality").addEventListener("change", (e) => { state.personality = e.target.value; });
     ["faceType","hairType","eyeType","noseType","mouthType"].forEach(id => document.getElementById(id).addEventListener("change", (e) => setPartStyle(id, e.target.value)));
