@@ -59,13 +59,13 @@
     .hair.style-bob { height: 64px; border-radius: 42px 42px 18px 18px; }
     .hair.style-spiky { height: 60px; clip-path: polygon(0% 88%, 8% 35%, 16% 82%, 25% 18%, 35% 80%, 46% 10%, 56% 80%, 66% 22%, 76% 84%, 86% 34%, 100% 88%, 100% 0%, 0% 0%); }
 
-    .brow { position: absolute; top: 64px; width: 30px; height: 6px; background: rgba(60,38,24,.9); border-radius: 999px; z-index: 5; }
-    .brow.left { left: 39px; transform: rotate(-7deg); }
-    .brow.right { right: 39px; transform: rotate(7deg); }
+    .brow { position: absolute; top: 64px; left: 50%; width: 30px; height: 6px; background: rgba(60,38,24,.9); border-radius: 999px; z-index: 5; }
+    .brow.left { transform: translateX(-38px) rotate(-7deg); }
+    .brow.right { transform: translateX(8px) rotate(7deg); }
 
-    .eye { position: absolute; top: 78px; z-index: 5; background-position: center; background-size: contain; background-repeat: no-repeat; }
-    .eye.left { left: 41px; }
-    .eye.right { right: 41px; }
+    .eye { position: absolute; top: 78px; left: 50%; z-index: 5; background-position: center; background-size: contain; background-repeat: no-repeat; }
+    .eye.left { transform: translateX(-40px); }
+    .eye.right { transform: translateX(10px); }
     .eye.style-round { width: 24px; height: 24px; }
     .eye.style-almond { width: 28px; height: 18px; }
     .eye.style-line { width: 26px; height: 7px; }
