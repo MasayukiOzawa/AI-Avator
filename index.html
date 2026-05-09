@@ -60,12 +60,12 @@
     .hair.style-spiky { height: 60px; clip-path: polygon(0% 88%, 8% 35%, 16% 82%, 25% 18%, 35% 80%, 46% 10%, 56% 80%, 66% 22%, 76% 84%, 86% 34%, 100% 88%, 100% 0%, 0% 0%); }
 
     .brow { position: absolute; top: 64px; left: 50%; width: 30px; height: 6px; background: rgba(60,38,24,.9); border-radius: 999px; z-index: 5; }
-    .brow.left { transform: translateX(-38px) rotate(-7deg); }
-    .brow.right { transform: translateX(8px) rotate(7deg); }
+    .brow.left { transform: translateX(calc(-50% - 23px)) rotate(-7deg); }
+    .brow.right { transform: translateX(calc(-50% + 23px)) rotate(7deg); }
 
     .eye { position: absolute; top: 78px; left: 50%; z-index: 5; background-position: center; background-size: contain; background-repeat: no-repeat; }
-    .eye.left { transform: translateX(-40px); }
-    .eye.right { transform: translateX(10px); }
+    .eye.left { transform: translateX(calc(-50% - 24px)); }
+    .eye.right { transform: translateX(calc(-50% + 24px)); }
     .eye.style-round { width: 24px; height: 24px; }
     .eye.style-almond { width: 28px; height: 18px; }
     .eye.style-line { width: 26px; height: 7px; }
